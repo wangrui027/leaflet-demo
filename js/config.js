@@ -118,9 +118,25 @@ L.custom.layerConfig = {
     }
 }
 
-// 默认图层
-if (isTouchDevice()) {
-    L.custom.layerConfig.defaultLayer = L.custom.layerConfig.baseLayers['高德矢量-高分屏'];
+const CACHE_KEY = 'leaflet_map_type';
+
+// 从本地缓存读取用户上次选择的地图类型
+function getCachedMapType() {
+    return localStorage.getItem(CACHE_KEY);
+}
+
+// 将用户选择的地图类型保存到本地缓存
+function cacheMapType(layerName) {
+    localStorage.setItem(CACHE_KEY, layerName);
+}
+
+if (getCachedMapType()) {
+    L.custom.layerConfig.defaultLayer = L.custom.layerConfig.baseLayers[getCachedMapType()];
 } else {
-    L.custom.layerConfig.defaultLayer = L.custom.layerConfig.baseLayers['高德矢量'];
+    // 默认图层
+    if (isTouchDevice()) {
+        L.custom.layerConfig.defaultLayer = L.custom.layerConfig.baseLayers['高德矢量-高分屏'];
+    } else {
+        L.custom.layerConfig.defaultLayer = L.custom.layerConfig.baseLayers['高德矢量'];
+    }
 }

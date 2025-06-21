@@ -84,6 +84,9 @@
     map.on('locationerror', function (e) {
         console.error(e.message);
     });
+    map.on('baselayerchange', function(e) {
+        cacheMapType(e.name);
+    });
 
 </script>
 </body>
