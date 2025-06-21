@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet 综合地示例</title>
+    <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="stylesheet" href="./lib/leaflet-1.9.4/leaflet.css"/>
+    <script src="./lib/leaflet-1.9.4/leaflet.js"></script>
+    <script src="./lib/leaflet.ChineseTmsProviders/leaflet.ChineseTmsProviders.js"></script>
+    <script src="./lib/leaflet.InternetMapCorrection/leaflet.mapCorrection.js"></script>
+    <link rel="stylesheet" href="./lib/leaflet-locatecontrol/L.Control.Locate.min.css"/>
+    <script src="./lib/leaflet-locatecontrol/L.Control.Locate.min.js"></script>
+    <script src="./js/leaflet-tools.js"></script>
+    <script src="./js/leaflet-control.js"></script>
+    <script src="./js/config.js"></script>
+    <style>
+        html, body, #map {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100vw;
+        }
+
+        /**
+         * 隐藏乌克兰国旗
+         */
+        .leaflet-control-attribution svg {
+            display: none !important;
+        }
+
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+
+    /**
+     * Leaflet API 文档：https://leafletjs.cn/reference.html
+     */
+
+    const baseConfig = L.custom.baseConfig;
+
+    const map = L.map('map', {
+        preferCanvas: true,
+        renderer: L.canvas(),
+        center: baseConfig.mapCenter,
+        zoom: baseConfig.mapZoom,
+    });
+    map.attributionControl.setPosition('bottomleft');
+
+    // 图层管理控件
+    let layersControl = L.control.layers(L.custom.layerConfig.baseLayers).addTo(map);
+    L.custom.layerConfig.defaultLayer.addTo(map);
+    layersControl.setPosition('topleft');
+
+    // 级别显示控件
+    new L.Control.custom.ZoomDisplay({
+        position: 'bottomright',
+    }).addTo(map);
+
+    // 级别控制控件
+    map.zoomControl.setPosition('bottomright');
+
+    // 定位控件
+    let locateControl = L.control.locate({
+        position: 'bottomright',
+        showCompass: true,
+        locateOptions: {
+            enableHighAccuracy: true,
+            timeout: 5000,
+        },
+    }).addTo(map);
+
+    // 移动设备自动开启定位
+    if (isTouchDevice()) {
+        locateControl.start();
+    }
+
+    // 绑定定位事件
+    map.on('locationfound', function (e) {
+        console.log("locationfound", e);
+    });
+    map.on('locationerror', function (e) {
+        console.error(e.message);
+    });
+
+</script>
+</body>
+</html>
