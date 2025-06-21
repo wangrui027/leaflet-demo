@@ -11,6 +11,8 @@
     <script src="./lib/leaflet.InternetMapCorrection/leaflet.mapCorrection.js"></script>
     <link rel="stylesheet" href="./lib/leaflet-locatecontrol/L.Control.Locate.min.css"/>
     <script src="./lib/leaflet-locatecontrol/L.Control.Locate.min.js"></script>
+    <link rel="stylesheet" href="./lib/leaflet.DoubleTouchDragZoom/leaflet-double-touch-drag-zoom.css"/>
+    <script src="./lib/leaflet.DoubleTouchDragZoom/leaflet-double-touch-drag-zoom.js"></script>
     <script src="./js/leaflet-tools.js"></script>
     <script src="./js/leaflet-control.js"></script>
     <script src="./js/config.js"></script>
@@ -46,6 +48,7 @@
         renderer: L.canvas(),
         center: baseConfig.mapCenter,
         zoom: baseConfig.mapZoom,
+        doubleTouchDragZoom: true,
     });
     map.attributionControl.setPosition('bottomleft');
 
